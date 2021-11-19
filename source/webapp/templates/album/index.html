@@ -15,7 +15,7 @@
             {% endif %}
             <p>Автор: <a href="{% url 'accounts:detail' album.author.pk %}"> {{ album.author }}</a></p>
             <p>Созданно: {{ album.created_at }} </p>
-            {% if request.user == album.author %}
+            {% if request.user == album.author or request.user.is_staff %}
                 {% if perms.webapp.change_album or album.author %}
                     <p><a href="{% url 'webapp:album_update' album.pk %}">Update</a></p>
                 {% endif %}

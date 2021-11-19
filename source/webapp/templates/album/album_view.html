@@ -4,7 +4,7 @@
 {% block title %}View{% endblock %}
 
 {% block menu %}
-    {% if request.user == album.author %}
+    {% if request.user == album.author or request.user.is_staff %}
         {% if perms.webapp.change_album or album.author %}
             <a href="{% url "webapp:photo_create" %}">Add Photo</a>
             <a href="{% url 'webapp:album_update' album.pk %}">Update</a>
