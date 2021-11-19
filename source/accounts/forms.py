@@ -11,7 +11,7 @@ from .models import AuthToken, Profile, TOKEN_TYPE_PASSWORD_RESET
 
 class MyUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        fields = ['username', 'password1', 'password2',
+        fields = ['username', 'password1',
                   'first_name', 'last_name', 'email']
 
     def save(self, commit=True):
