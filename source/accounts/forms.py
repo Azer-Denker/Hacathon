@@ -63,14 +63,14 @@ class ProfileChangeForm(forms.ModelForm):
 
 class SetPasswordForm(forms.ModelForm):
     password = forms.CharField(label="Новый пароль", strip=False, widget=forms.PasswordInput)
-    password_confirm = forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput, strip=False)
-
-    def clean_password_confirm(self):
-        password = self.cleaned_data.get("password")
-        password_confirm = self.cleaned_data.get("password_confirm")
-        if password and password_confirm and password != password_confirm:
-            raise forms.ValidationError('Пароли не совпадают!')
-        return password_confirm
+    # password_confirm = forms.CharField(label="Подтвердите пароль", widget=forms.PasswordInput, strip=False)
+    #
+    # def clean_password_confirm(self):
+    #     password = self.cleaned_data.get("password")
+    #     password_confirm = self.cleaned_data.get("password_confirm")
+    #     if password and password_confirm and password != password_confirm:
+    #         raise forms.ValidationError('Пароли не совпадают!')
+    #     return password_confirm
 
     def save(self, commit=True):
         user = self.instance
@@ -81,7 +81,7 @@ class SetPasswordForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['password', 'password_confirm']
+        fields = ['password']
 
 
 class PasswordChangeForm(SetPasswordForm):
@@ -95,7 +95,7 @@ class PasswordChangeForm(SetPasswordForm):
 
     class Meta:
         model = get_user_model()
-        fields = ['password', 'password_confirm', 'old_password']
+        fields = ['password', 'old_password']
 
 
 class PasswordResetEmailForm(forms.Form):
