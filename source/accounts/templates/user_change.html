@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Редактировать пользователя{% endblock %}
+{% block title %}Редактирование пользователя{% endblock %}
 
 {% block menu %}
     <li><a href="{% url "accounts:detail" user_obj.pk %}">Назад</a></li>
@@ -15,6 +15,6 @@
         <p>yyyy-dd-mm</p>
         {% include 'partial/form.html' with form=profile_form fields_only=True %}
         <br>
-        <input type="submit" value="Submit">
+        <input type="submit" value="Отправить">
     </form>
 {% endblock %}

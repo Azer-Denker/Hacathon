@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{% block title %}Gallery{% endblock %}</title>
+    <title>{% block title %}Галерея{% endblock %}</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
 
@@ -22,21 +22,21 @@
                     <li><a href="{% url 'webapp:album_create' %}">Создать новость</a></li>
                     {% block menu %}{% endblock %}
                     <li><a href="{% url 'accounts:detail' request.user.pk %}">
-                        Привет, {{ request.user.get_full_name|default:request.user.username }}
+                        Привет, {{ request.user.get_full_name|default:request.user.username }}!
                     </a></li>
                 {% endif %}
                 {% block auth_menu %}
                     {% if request.user.is_authenticated %}
                         <li><a href="{% url 'accounts:logout' %}
-                        ">  Logout</a></li>
+                        ">Выйти</a></li>
                     {% else %}
                         <li><a href="{% url 'accounts:login' %}
-                        ">Login</a></li>
-                        <li><a href="{% url 'accounts:create' %}?next={{ request.get_full_path }}">Sign Up</a></li>
+                        ">Войти</a></li>
+                        <li><a href="{% url 'accounts:create' %}?next={{ request.get_full_path }}">Зарегистрироваться</a></li>
                     {% endif %}
                 {% endblock %}
                 {% if not request.user.is_authenticated %}
-                    <li><a href="{% url 'accounts:password_reset_email' %}">Reset Password</a></li>
+                    <li><a href="{% url 'accounts:password_reset_email' %}">Сбросить пароль</a></li>
                 {% endif %}
             </ul>
 

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles likes %}
 
-{% block title %}View{% endblock %}
+{% block title %}Фотографии{% endblock %}
 
 {% block menu %}
-    <li><a href="{% url 'webapp:photo_update' photo.pk %}">Update</a></li>
-    <li><a href="{% url 'webapp:photo_delete' photo.pk %}">Delete</a></li>
+    <li><a href="{% url 'webapp:photo_update' photo.pk %}">Обновить</a></li>
+    <li><a href="{% url 'webapp:photo_delete' photo.pk %}">Удалить</a></li>
 {% endblock %}
 
 {% block content %}
@@ -20,21 +20,21 @@
     <p> Созданно: {{ photo.created_at }} </p>
     </div>
 
-    <p>Users which like: {% for user in likes %}
+    <p>Пользователи, которым понравилось: {% for user in likes %}
         <a href="{% url 'accounts:detail' user.author.pk %}">{{ user.author}}</a>
     {% endfor %}
     </p>
     {% if user.is_authenticated %}
     {% if photo|liked_by:user  %}
         <a class="add hide" href="{% url 'api:favorites_add' photo.pk%}">
-            Add to Favorites</a>
+            Добавить в избранное</a>
         <a class=" remove show" href="{% url 'api:favorites_remove' photo.pk%}">
-             Delete from Favorites</a>
+            Удалить из избранного</a>
     {% else %}
         <a class="add show" href="{% url 'api:favorites_add' photo.pk%}">
-            Add to Favorites</a>
+            Добавить в избранное</a>
         <a class="remove hide" href="{% url 'api:favorites_remove' photo.pk%}">
-             Delete from Favorites</a>
+            Удалить из избранного</a>
     {% endif %}
 {% endif %}
 {% endblock %}

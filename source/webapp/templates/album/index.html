@@ -17,10 +17,10 @@
             <p>Созданно: {{ album.created_at }} </p>
             {% if request.user == album.author or request.user.is_staff %}
                 {% if perms.webapp.change_album or album.author %}
-                    <p><a href="{% url 'webapp:album_update' album.pk %}">Update</a></p>
+                    <p><a href="{% url 'webapp:album_update' album.pk %}">Обновить</a></p>
                 {% endif %}
                 {% if perms.webapp.delete_album or album.author %}
-                    <p><a href="{% url 'webapp:album_delete' album.pk %}">Delete</a></p>
+                    <p><a href="{% url 'webapp:album_delete' album.pk %}">Удалить</a></p>
                 {% endif %}
             {% endif %}
         </div>

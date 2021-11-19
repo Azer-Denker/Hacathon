@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Update{% endblock %}
+{% block title %}Обновление{% endblock %}
 
 {% block menu %}
     <li><a href="{% url 'webapp:photo_view' photo.pk %}">Отмена</a></li>
@@ -10,5 +10,5 @@
     <h1>Update Product</h1>
 
     {% url "webapp:photo_update" pk=photo.pk as action_url %}
-    {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Update' enctype="multipart/form-data" %}
+    {% include 'partial/form.html' with action_url=action_url form_method='post' button_text='Обновление' enctype="multipart/form-data" %}
 {% endblock %}
