@@ -46,6 +46,10 @@ class Profile(models.Model):
                                               on_delete=models.CASCADE, verbose_name='Пользователь')
     birth_date = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
     avatar = models.ImageField(null=True, blank=True, upload_to='user_pics', verbose_name='Аватар')
+    self = models.TextField(max_length=300, null=False, blank=False, default="None", verbose_name='О себе')
+    linkedin = models.URLField(max_length=100, null=True, blank=True, verbose_name='Ссылка на linkedin')
+    instagram = models.URLField(max_length=100, null=True, blank=True, verbose_name='Ссылка на instagram')
+    telegram = models.URLField(max_length=100, null=True, blank=True, verbose_name='Ссылка на telegram')
 
     def __str__(self):
         return self.user.get_full_name() + "'s Profile"

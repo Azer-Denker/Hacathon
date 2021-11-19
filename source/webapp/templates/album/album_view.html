@@ -4,20 +4,24 @@
 {% block title %}View{% endblock %}
 
 {% block menu %}
-    {% if perms.webapp.change_album or album.author %}
-        <a href="{% url 'webapp:album_update' album.pk %}">Update</a>
-    {% endif %}
-    {% if perms.webapp.delete_album or album.author %}
-        <a href="{% url 'webapp:album_delete' album.pk %}">Delete</a>
+    {% if request.user == album.author %}
+        {% if perms.webapp.change_album or album.author %}
+            <a href="{% url "webapp:photo_create" %}">Add Photo</a>
+            <a href="{% url 'webapp:album_update' album.pk %}">Update</a>
+        {% endif %}
+        {% if perms.webapp.delete_album or album.author %}
+            <a href="{% url 'webapp:album_delete' album.pk %}">Delete</a>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <div class="box">
-        <h3>{{ album.name }}</h3>
+        <h3>Название: {{ album.name }}</h3>
+        <h3>Новость:</h3>
         <p>{{ album.description }}</p>
-        <p>Автор: {{ album.author }}</p>
-        <p> Созданно: {{ album.created_at }} </p>
+        <p>Автор: <a href="{% url 'accounts:detail' album.author.pk %}"> {{ album.author }}</a></p>
+        <p>Созданно: {{ album.created_at }} </p>
     </div>
 
     <h3>Photo:</h3>
@@ -33,7 +37,7 @@
                         <br>
                         {{ photo.signature }}
                     </p>
-                <p>Автор: {{ photo.author }}</p>
+                <p>Автор: <a href="{% url 'accounts:detail' photo.author.pk %}"> {{ photo.author }}</a></p>
                 <p>Созданно: {{ photo.created_at }}</p>
                 <p>Статус: {{ photo.status }}</p>
 

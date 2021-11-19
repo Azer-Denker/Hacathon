@@ -12,6 +12,7 @@
     <form action="{% url 'accounts:change' user_obj.pk %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {% include 'partial/form.html' with form=form fields_only=True %}
+        <p>yyyy-dd-mm</p>
         {% include 'partial/form.html' with form=profile_form fields_only=True %}
         <br>
         <input type="submit" value="Submit">
