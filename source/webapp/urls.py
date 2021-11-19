@@ -8,6 +8,16 @@ app_name = 'webapp'
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
     path('photo_list/', PIndexView.as_view(), name='p_index'),
+    path('job/', JIndexView.as_view(), name='j_index'),
+
+    path('jopening/', include([
+        path('add/', JopeningCreateView.as_view(), name='jopening_create'),
+        path('<int:pk>/', include([
+            path('', JopeningView.as_view(), name='jopening_view'),
+            path('update/', JopeningUpdateView.as_view(), name='jopening_update'),
+            path('delete/', JopeningDeleteView.as_view(), name='jopening_delete'),
+        ])),
+    ])),
 
     path('photo/', include([
         path('add/', PhotoCreateView.as_view(), name='photo_create'),

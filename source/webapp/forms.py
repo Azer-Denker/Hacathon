@@ -1,5 +1,11 @@
 from django import forms
-from webapp.models import Photo, Album
+from webapp.models import Photo, Album, Jopening
+
+
+class JopeningForm(forms.ModelForm):
+    class Meta:
+        model = Jopening
+        fields = ['name', 'description']
 
 
 class PhotoForm(forms.ModelForm):

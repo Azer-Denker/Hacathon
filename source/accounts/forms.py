@@ -45,7 +45,7 @@ class MyUserCreationForm(UserCreationForm):
             try:
                 user.email_user(subject, message, html_message=html_message)
             except Exception as e:
-                print(e)
+                pass
 
 
 class UserChangeForm(forms.ModelForm):
@@ -123,7 +123,7 @@ class PasswordResetEmailForm(forms.Form):
         try:
             user.email_user(subject, message, html_message=html_message)
         except Exception as e:
-            print(e)
+            pass
 
 
 class PasswordResetForm(SetPasswordForm):

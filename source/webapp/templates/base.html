@@ -18,8 +18,8 @@
         <div class="container">
             <ul class="menu">
                 <li><a href="{% url "webapp:index" %}">Главная</a></li>
+                <li><a href="{% url "webapp:j_index" %}">Вакансии</a></li>
                 {% if request.user.is_authenticated %}
-                    <li><a href="{% url 'webapp:album_create' %}">Создать новость</a></li>
                     {% block menu %}{% endblock %}
                     <li><a href="{% url 'accounts:detail' request.user.pk %}">
                         Привет, {{ request.user.get_full_name|default:request.user.username }}!

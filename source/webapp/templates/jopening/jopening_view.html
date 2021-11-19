@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles likes %}
+
+{% block title %}Альбомы{% endblock %}
+
+{% block menu %}
+    {% if request.user == jopening.author or request.user.is_staff %}
+        {% if perms.webapp.change_jopening or jopening.author %}
+            <a href="{% url 'webapp:jopening_update' jopening.pk %}">Обновить</a>
+        {% endif %}
+        {% if perms.webapp.delete_jopening or jopening.author %}
+            <a href="{% url 'webapp:jopening_delete' jopening.pk %}">Удалить</a>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="box">
+        <h3>Оглавление: {{ jopening.name }}</h3>
+        <h3>О Вакансии:</h3>
+        <p>{{ jopening.description }}</p>
+        <p>Автор: <a href="{% url 'accounts:detail' jopening.author.pk %}"> {{ jopening.author }}</a></p>
+        <p>Созданно: {{ jopening.created_at }} </p>
+    </div>
+
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

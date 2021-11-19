@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles likes %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <li><a href="{% url 'webapp:jopening_create' %}">Создать вакансию</a></li>
+    {% endif %}
+    <h1>Вакансии:</h1>
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    {% for jopening in jopenings %}
+        <div class="box">
+            {% if request.user.is_authenticated %}
+                <h3>Название: <a href="{% url "webapp:jopening_view" jopening.pk %}">{{ jopening.name }}</a></h3>
+            {% else %}
+                <h3>{{ jopening.name }}</h3>
+            {% endif %}
+            <p>Автор: <a href="{% url 'accounts:detail' jopening.author.pk %}"> {{ jopening.author }}</a></p>
+            <p>Созданно: {{ jopening.created_at }} </p>
+            {% if request.user == jopening.author or request.user.is_staff %}
+                {% if perms.webapp.change_jopening or jopening.author %}
+                    <p><a href="{% url 'webapp:jopening_update' jopening.pk %}">Обновить</a></p>
+                {% endif %}
+                {% if perms.webapp.delete_album or jopening.author %}
+                    <p><a href="{% url 'webapp:jopening_delete' jopening.pk %}">Удалить</a></p>
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+{% endblock %}
+{% block scripts %}
+{% endblock %}

@@ -38,3 +38,11 @@ class Favorite(models.Model):
     photo = models.ForeignKey(Photo,  verbose_name='Фото', related_name='favorite_photo', on_delete=models.CASCADE)
     author = models.ForeignKey(get_user_model(), related_name='author_favorites',
                                verbose_name='Автор', on_delete=models.CASCADE)
+
+
+class Jopening(models.Model):
+    name = models.CharField(max_length=500, verbose_name='Оглавление')
+    description = models.CharField(max_length=6000, null=True, blank=True, verbose_name='Описание')
+    author = models.ForeignKey(get_user_model(), verbose_name='Автор', related_name='jopenings_album',
+                               on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
