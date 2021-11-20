@@ -2,7 +2,7 @@
 {% load staticfiles likes %}
 
 {% block content %}
-    {% if request.user.is_authenticated %}
+    {% if request.user.profile.status == "university" or request.user.profile.status == "company" or request.user.is_staff %}
         <li><a href="{% url 'webapp:album_create' %}">Создать новость</a></li>
     {% endif %}
     <h1>Новости:</h1>

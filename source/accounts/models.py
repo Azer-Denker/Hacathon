@@ -12,6 +12,14 @@ TOKEN_TYPE_CHOICES = (
     (TOKEN_TYPE_REGISTER, 'Регистрация'),
     (TOKEN_TYPE_PASSWORD_RESET, 'Восстановление пароля')
 )
+STATUS_CHOICES = [
+    ('student', 'Студент'),
+    ('university', 'Вуз'),
+    ('company', 'Компания')
+]
+LINK = [
+    ('https://t.me/joinchat/j5MzJfC5XQ00N2Yy', 'https://t.me/joinchat/j5MzJfC5XQ00N2Yy')
+]
 
 
 class AuthToken(models.Model):
@@ -46,7 +54,10 @@ class Profile(models.Model):
                                               on_delete=models.CASCADE, verbose_name='Пользователь')
     birth_date = models.DateField(null=True, blank=True, verbose_name='Дата рождения')
     avatar = models.ImageField(null=True, blank=True, upload_to='user_pics', verbose_name='Аватар')
+    status = models.CharField(max_length=15, null=True, blank=True, choices=STATUS_CHOICES, default='student',
+                              verbose_name='Статус')
     self = models.TextField(max_length=300, null=False, blank=False, default="None", verbose_name='О себе')
+    group = models.URLField(max_length=100, default=LINK, null=True, blank=True, verbose_name='Ссылка на глобальный чат')
     linkedin = models.URLField(max_length=100, null=True, blank=True, verbose_name='Ссылка на linkedin')
     instagram = models.URLField(max_length=100, null=True, blank=True, verbose_name='Ссылка на instagram')
     telegram = models.URLField(max_length=100, null=True, blank=True, verbose_name='Ссылка на telegram')

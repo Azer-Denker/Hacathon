@@ -19,10 +19,17 @@
             <ul class="menu">
                 <li><a href="{% url "webapp:index" %}">Главная</a></li>
                 <li><a href="{% url "webapp:j_index" %}">Вакансии</a></li>
+                <li><a href="{% url "webapp:m_index" %}">Чаты</a></li>
                 {% if request.user.is_authenticated %}
                     {% block menu %}{% endblock %}
                     <li><a href="{% url 'accounts:detail' request.user.pk %}">
                         Привет, {{ request.user.get_full_name|default:request.user.username }}!
+                    </a></li>
+                    <li><a href="{% url 'webapp:sended_message' %}">
+                        Отправленные сообщения
+                    </a></li>
+                    <li><a href="{% url 'webapp:recived_message' %}">
+                        Входящая сообщения
                     </a></li>
                 {% endif %}
                 {% block auth_menu %}
@@ -39,6 +46,7 @@
                     <li><a href="{% url 'accounts:password_reset_email' %}">Сбросить пароль</a></li>
                 {% endif %}
             </ul>
+            <li><a href="{% url 'accounts:users_list' %}?next={{ request.get_full_path }}">Вузы</a></li>
 
             {% block search %}
                 {% if search_form %}

@@ -36,4 +36,8 @@ urlpatterns = [
             path('delete/', AlbumDeleteView.as_view(), name='album_delete'),
         ])),
     ])),
+    path('message', UserListView.as_view(), name='m_index'),
+    path('send/message/<int:pk>/', MessageCreateView.as_view(), name='send_message'),
+    path('messages/sended', SendedMessages.as_view(), name='sended_message'),
+    path('messages/recived', RecivedMessages.as_view(), name='recived_message'),
 ]

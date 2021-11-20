@@ -7,8 +7,10 @@
 {% endblock %}
 
 {% block content %}
-    {% if request.user == user_obj %}
+    {% if request.user == user_obj or request.user.is_staff %}
         <li><a href="{% url 'accounts:change' user_obj.pk %}">Редактировать</a></li>
+    {% endif %}
+    {% if request.user == user_obj %}
         <li><a href="{% url "accounts:password_change" %}">Смена пароля</a></li>
     {% endif %}
     <h1>Личная страница пользователя {{ user_obj.get_full_name|default:user_obj.username }}</h1>
@@ -20,6 +22,9 @@
     <p>Фамилия: {{ user_obj.last_name }}</p>
     <p>Дата рождения: {{ user_obj.profile.birth_date|date:'d.m.Y' }}</p>
     <p>Почта: {{ user_obj.email }}</p>
+    {% if request.user.profile.status == "student" %}
+        <p>Ссылка на глобальный чат: <a href="{{ user_obj.profile.group }}">{{ user_obj.profile.group }}</a></p>
+    {% endif %}
     {% if user_obj.profile.linkedin %}
         <p>Ссылка на linkedin: <a href="{{ user_obj.profile.linkedin }}">{{ user_obj.profile.linkedin }}</a></p>
     {% endif %}
@@ -30,29 +35,8 @@
         <p>Ссылка на telegram: <a href="{{ user_obj.profile.telegram }}">{{ user_obj.profile.telegram }}</a></p>
     {% endif %}
     <p>О себе: {{ user_obj.profile.self }}</p>
-{#    {% if not 'photos/index.html' %}#}
-{#    {% else %}#}
-{#        <h2 class="text-center clear">News автора:</h2>#}
-{#            {% include 'photos/index.html' %}#}
-{#    {% endif %}#}
+    <p>Статус: {{ user_obj.profile.status }}</p>
     {% if 'album/index.html' %}
             {% include 'album/index.html' %}
     {% endif %}
-
-{#    {% if favorites %}#}
-{#        <h2 class="text-center clear">Favorites автора:</h2>#}
-{#            {% for favorite in favorites %}#}
-{#                <div>#}
-{#                    <p>#}
-{#                    <img src="{{ favorite.photo.photo_img.url }}" width="250" height="250"alt="photo">#}
-{#                    <br>#}
-{#                        <h3><a href="{% url "webapp:photo_view" favorite.photo.pk %}">{{ favorite.photo.signature }}</a></h3>#}
-{#                    </p>#}
-{#                    <p>Автор: <a href="{% url 'accounts:detail' favorite.photo.author.pk %}"> {{ favorite.photo.author }}</a></p>#}
-{#                    <p> Созданно: {{ favorite.photo.created_at }} </p>#}
-{#                    </div>#}
-{#            {% endfor %}#}
-{#    {% endif %}#}
-
-{#    {% include 'partial/article_list.html' %}#}
 {% endblock %}

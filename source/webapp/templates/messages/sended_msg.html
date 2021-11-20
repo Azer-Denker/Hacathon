@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}User page{% endblock %}
+
+{% block content %}
+            {% if is_paginated %}
+                {% include 'partial/pagination.html' %}
+            {% endif %}
+            <h3>Отправленные сообщения:</h3>
+            {% for message in sended_messages %}
+                <h3 style="box-sizing: border-box; display: inline-block"><a href="{% url "accounts:detail" user.pk %}">{{ user.first_name }} {{ user.last_name }}</a></h3>
+                <div class="box">
+                    <p>Адресат: <a href="{% url 'accounts:detail' pk=message.reciver.pk %}">{{ message.reciver }}</a></p>
+                    <p>
+                    <p>Время отправки:{{ message.created_at }}</p>
+                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#message--{{ message.pk }}" aria-expanded="false" aria-controls="collapseExample">
+                        Текст сообщения.
+                      </button>
+                    </p>
+                    <div class="collapse" id="message--{{ message.pk }}">
+                      <div class="card card-body">
+                       {{ message.message_text }}
+                      </div>
+                    </div>
+                                    </div>
+            {% endfor %}
+         {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    {% endblock %}

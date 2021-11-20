@@ -4,11 +4,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
-from django.views.generic import View, FormView, DetailView, CreateView, UpdateView
+from django.views.generic import View, FormView, DetailView, CreateView, UpdateView, ListView
 from django.conf import settings
 
 from accounts.forms import MyUserCreationForm, UserChangeForm, ProfileChangeForm, \
-    PasswordChangeForm, PasswordResetEmailForm, PasswordResetForm
+    PasswordChangeForm, PasswordResetEmailForm, PasswordResetForm, ProfileChangeAdminForm, ProfileChangeGroupForm
 
 from .models import AuthToken, Profile
 
@@ -52,6 +52,12 @@ class RegisterActivateView(View):
         login(self.request, user)
 
 
+class WatchUsersView(ListView):
+    template_name = 'users_list.html'
+    model = get_user_model()
+    context_object_name = 'profiles'
+
+
 class UserDetailView(LoginRequiredMixin, DetailView):
     model = get_user_model()
     template_name = 'user_detail.html'
@@ -76,7 +82,7 @@ class UserChangeView(UserPassesTestMixin, UpdateView):
     context_object_name = 'user_obj'
 
     def test_func(self):
-        return self.request.user == self.get_object()
+        return self.request.user == self.get_object() or self.request.user.is_staff
 
     def get_context_data(self, **kwargs):
         if 'profile_form' not in kwargs:
@@ -105,18 +111,24 @@ class UserChangeView(UserPassesTestMixin, UpdateView):
         return reverse('accounts:detail', kwargs={'pk': self.object.pk})
 
     def get_profile_form(self):
-        form_kwargs = {'instance': self.object.profile}
-        if self.request.method == 'POST':
-            form_kwargs['data'] = self.request.POST
-            form_kwargs['files'] = self.request.FILES
-        return ProfileChangeForm(**form_kwargs)
-
-        # if self.request.method == 'POST':
-        #     form = ProfileChangeForm(instance=self.object, data=self.request.POST, 
-        #                                 files=self.request.FILES)
-        # else:
-        #     form = ProfileChangeForm(instance=self.object)
-        # return form
+        if self.request.user.is_staff:
+            form_kwargs = {'instance': self.object.profile}
+            if self.request.method == 'POST':
+                form_kwargs['data'] = self.request.POST
+                form_kwargs['files'] = self.request.FILES
+            return ProfileChangeAdminForm(**form_kwargs)
+        elif self.request.user.profile.status == 'student':
+            form_kwargs = {'instance': self.object.profile}
+            if self.request.method == 'POST':
+                form_kwargs['data'] = self.request.POST
+                form_kwargs['files'] = self.request.FILES
+            return ProfileChangeGroupForm(**form_kwargs)
+        else:
+            form_kwargs = {'instance': self.object.profile}
+            if self.request.method == 'POST':
+                form_kwargs['data'] = self.request.POST
+                form_kwargs['files'] = self.request.FILES
+            return ProfileChangeForm(**form_kwargs)
 
 
 class UserPasswordChangeView(LoginRequiredMixin, UpdateView):
@@ -135,13 +147,6 @@ class UserPasswordChangeView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('accounts:detail', kwargs={'pk': self.object.pk})
-
-
-# class UserPasswordChangeView(PasswordChangeView):
-#     template_name = 'user_password_change.html'
-#
-#     def get_success_url(self):
-#         return reverse('accounts:detail', kwargs={'pk': self.request.user.pk})
 
 
 class UserPasswordResetEmailView(FormView):

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}User page{% endblock %}
+
+{% block content %}
+            {% if is_paginated %}
+                {% include 'partial/pagination.html' %}
+            {% endif %}
+            <h3>Входящие сообщения:</h3>
+            {% for message in recived_messages %}
+                <div class="box">
+                    <p>Отправитель: <a href="{% url 'accounts:detail' pk=message.reciver.pk %}">{{ message.sender }}</a></p>
+                        <p>Время отправки:{{ message.created_at }}</p>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#message--{{ message.pk }}" aria-expanded="false" aria-controls="collapseExample">
+                                {{ message.message_text }}
+                            </button>
+                    </p>
+                </div>
+            {% endfor %}
+         {% if is_paginated %}
+        {% include 'partial/pagination.html' %}
+    {% endif %}
+    {% endblock %}

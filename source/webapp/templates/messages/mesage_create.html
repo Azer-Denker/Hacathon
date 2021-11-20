@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Добавить сотрудника{% endblock %}
+{% block content %}
+    <h1> Отправить сообщение </h1>
+    {% include 'partial/form.html' with form_method='POST' button_text='Отправить' enctype="multipart/form-data" %}
+{% endblock %}

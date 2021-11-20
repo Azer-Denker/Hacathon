@@ -1,3 +1,5 @@
+from urllib import request
+
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
@@ -56,6 +58,18 @@ class UserChangeForm(forms.ModelForm):
 
 
 class ProfileChangeForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user', 'status', 'group']
+
+
+class ProfileChangeGroupForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user', 'status']
+
+
+class ProfileChangeAdminForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ['user']
